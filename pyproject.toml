@@ -1,0 +1,9 @@
+[tool.ruff]
+line-length = 99
+target-version = "py310"
+src = ["tools"]
+
+[tool.ruff.lint]
+# Same rule set as turtlebot-rfid-slam.
+select = ["E", "F", "W"]
+ignore = ["E203"]
