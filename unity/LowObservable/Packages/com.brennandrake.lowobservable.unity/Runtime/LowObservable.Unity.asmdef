@@ -1,0 +1,17 @@
+{
+  "name": "LowObservable.Unity",
+  "rootNamespace": "LowObservable.Unity",
+  "references": [
+    "LowObservable.Core",
+    "Unity.InputSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

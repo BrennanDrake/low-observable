@@ -1,0 +1,13 @@
+{
+  "name": "com.brennandrake.lowobservable.unity",
+  "version": "0.1.0",
+  "displayName": "Low Observable Unity Integration",
+  "description": "MonoBehaviours that run a Low Observable Episode in Unity and draw the beliefs: floor renderer, belief ellipse, Seeker particle cloud, HUD, data association picker, reveal screen and a one-component bootstrap.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.brennandrake.lowobservable.core": "0.1.0"
+  },
+  "author": {
+    "name": "Brennan Drake"
+  }
+}
