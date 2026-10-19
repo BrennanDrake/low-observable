@@ -1,0 +1,7 @@
+---
+description: Commit and PR hygiene
+alwaysApply: true
+---
+- Imperative subject under ~70 chars; body explains why.
+- One topic per PR. PR body opens with "Before:" and "After:" paragraphs.
+- Include `make sim` before/after numbers when balance changes.

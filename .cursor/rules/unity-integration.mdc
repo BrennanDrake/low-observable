@@ -1,0 +1,9 @@
+---
+description: Rules for the Unity integration package
+globs: unity/**/*.cs
+---
+- Views read `EpisodeRunner.Episode`; only `EpisodeRunner` calls `Episode.Step`.
+- Draw beliefs, not truth. The Seeker is shown only when the drone could see it, placed in the belief frame.
+- Support both input backends (`#if ENABLE_INPUT_SYSTEM`); keep IMGUI HUD until the UI art pass.
+- Convert types only through `UnityConvert`; draw order constants in `Layers`.
+- Unity code cannot be compiled in CI: keep it thin, put logic in the core.

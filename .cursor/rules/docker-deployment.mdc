@@ -1,0 +1,7 @@
+---
+description: Dockerfiles and the NAS registry
+globs: docker/**, scripts/pc/build_web_image.sh, scripts/nas/*.sh
+---
+- Build from the repo root. Registry: `192.168.1.203:5000` (override with `nas_reg`).
+- Tag `:<VERSION>`, `:git-<sha>`, `:latest` with OCI version/revision labels, as in turtlebot-rfid-slam.
+- Use the default buildx builder so the daemon's insecure-registries list applies.
