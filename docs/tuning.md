@@ -133,3 +133,75 @@ ellipse, `wrong_assoc` wrong landmark matches per run, `seen` the number of time
 - **Ghost is weaker than expected** (27%). Creeping takes long enough that the Seeker's search finds
   it. This may be the bot's route choice rather than the tuning.
 - Ping loudness sweeps at 16 and 12 m made pinging nearly free; 26 m was kept.
+
+## Escape campaign (`StageTuning`)
+
+The escape game keeps its numbers in `core/Runtime/Stages/StageTuning.cs`, apart from the drone
+prototype's `TuningParameters`. The stage runner overrides them the same way:
+`dotnet run --project dotnet/LowObservable.Sim -- stage --set RunSpeed=4.0`. Run `make stages`
+before and after a change and paste both tables in the PR.
+
+Loudness is a radius in meters: a listener hears a sound within loudness × its sensitivity, and
+only `WallMuffling` (0.45) of that when there is no line of sight.
+
+### Player
+
+| Field | Default | Effect on play |
+|---|---|---|
+| `SneakSpeed` / `WalkSpeed` / `RunSpeed` | 1.3 / 2.6 / 4.6 m/s | Speed per mode |
+| `StaminaSeconds` / `StaminaRecovery` | 2.5 s / 0.5 per s | How long you can run, and how fast it comes back. Without it the runner bot cleared everything |
+| `SneakLoudness` / `WalkLoudness` / `RunLoudness` | 0.8 / 3.5 / 9 m | Footstep radius per mode. Sneaking past a mic is fine; running past one is not |
+| `StrideLength` | 0.9 m | Distance per footstep |
+| `InteractRange` | 1.3 m | Reach for notes, lockers, terminals, switches |
+| `HideLoudness` | 1.5 m | Noise of getting in or out of a locker |
+| `CarryLimit` / `ThrowRange` / `ThrowLoudness` | 3 / 8 m / 7 m | Throwables: how many, how far, how loud the landing |
+| `DoorLoudness` / `SwitchLoudness` | 5 / 2.5 m | Interacting is not silent |
+| `TerminalUseSeconds` / `TerminalBeepLoudness` | 2.5 s / 6 m | Hold time at a terminal, and the beeps WARDEN can hear meanwhile |
+
+### Tools
+
+| Field | Default | Effect on play |
+|---|---|---|
+| `NoisemakerCharges` / `NoisemakerBursts` / `NoisemakerBurstPeriod` | 2 / 4 / 1.2 s | A moving decoy when it sticks to a roomba (`NoisemakerStickRadius` 0.8 m) |
+| `NoisemakerLoudness` | 9 m | As loud as running, so sensors can't tell it from you |
+| `JammerCharges` / `JammerRadius` / `JammerDuration` | 1 / 4 m / 20 s | Sensors inside report nothing, not even "nobody here" |
+| `JammerInterferencePeriod` / `JammerInterferenceSigma` | 3 s / 3 m | WARDEN gets a vague fix on the jammer itself, so it isn't free |
+| `MirrorCharges` / `MirrorLength` / `MirrorPlaceRange` | 2 / 1.2 m / 2 m | Mirrors, placed within reach |
+| `ForgeRange` / `ForgeSigma` / `ForgeOutlierWeight` | 14 m / 0.3 m / 1e-5 | A forged fix is very precise and claims almost no chance of being wrong. That near-zero outlier weight is what starves SWARM |
+
+### Sensors
+
+| Field | Default | Effect on play |
+|---|---|---|
+| `CameraRange` / `CameraFieldOfView` / `CameraPeriod` | 8 m / 70° / 0.2 s | Fixed cameras |
+| `SwivelPeriod` | 6 s | Full sweep time for swivel cameras unless the level sets `period=` |
+| `DarkVisionRange` | 1.5 m | Cameras and guards only see this far into dark cells |
+| `VisionSigma` | 0.3 m | Noise on a sighting |
+| `MissLikelihood` | 0.08 | Chance a covering sensor misses you. Used by the grid and swarm to learn from "nobody here" |
+| `MicRadius` / `UnitHearing` | 1.3 / 1.0 | Hearing multipliers on loudness for mics and guards |
+| `HearingSigmaBase` / `HearingSigmaPerMeter` | 0.6 m / 0.15 m/m | Heard reports get vaguer with distance |
+| `RoombaSpeed` / `RoombaBumpRange` / `RoombaSigma` / `RoombaCooldown` | 0.9 m/s / 0.8 m / 0.8 m / 3 s | Roombas report what they bump into, then apologize |
+| `LaserSigma` | 0.3 m | Tripwire fix noise |
+| `SensorOutlierWeight` | 0.01 | How much any honest report allows for being wrong |
+
+### Units and dispatch
+
+| Field | Default | Effect on play |
+|---|---|---|
+| `PatrolSpeed` / `InvestigateSpeed` / `ChaseSpeed` | 1.6 / 2.6 / 3.8 m/s | Chase is slower than running, faster than walking |
+| `GuardVisionRange` / `GuardFieldOfView` | 7.5 m / 100° | Guard cones |
+| `CaptureRadius` | 0.7 m | Catch distance |
+| `SearchDuration` / `ChaseMemory` / `LockerCheckSeconds` | 6 / 1.5 / 1.2 s | How long a guard searches, keeps chasing out of sight, and spends on a locker |
+| `DispatchPeriod` / `DispatchRadius` | 0.5 s / 3 m | How often WARDEN re-plans, and the radius it measures belief mass in |
+| `DispatchConfidence` / `AllUnitsConfidence` | 0.3 / 0.75 | Belief mass needed to send one unit, or every unit |
+| `LockerCheckMass` | 0.25 | Belief mass near a locker before a guard opens it |
+
+### Trackers
+
+| Field | Default | Effect on play |
+|---|---|---|
+| `TrackerAssumedSpeed` | 1.6 m/s | How fast the grid and swarm assume you move while unseen. Lower than your walk speed on purpose: outrunning the model is a lesson |
+| `ParticleCount` / `ParticleInjectionPerSecond` | 500 / 0.02 | SWARM's size, and how fast it recovers from starvation |
+| `KalmanAccelerationNoise` | 0.8 m/s² | How quickly KESTREL lets you change direction |
+| `KalmanGate` | 13.8 | χ²(2, 99.9%) gate on squared Mahalanobis distance: reports further out are thrown away |
+| `ExposureRadius` | 1.5 m | Exposure on the HUD is belief mass within this of you |

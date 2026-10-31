@@ -1,5 +1,38 @@
 # Architecture
 
+## Two game modes
+
+The repo holds two modes built on the same estimation code. **The escape campaign** is the game
+(since 2026-10-31): the player sees the truth and WARDEN's belief. **The drone prototype** (the
+first MVP) shows only beliefs. The sections below "The big split" describe the drone prototype; the
+escape campaign is described first.
+
+## Escape campaign
+
+```
+ StageInput ─▶ Stage.Step()                                         core/Runtime/Stages/
+                ├─ player, throws, gadgets (noisemaker, jammer, mirror)          (truth)
+                ├─ sensors: cameras (+mirrors), mics, lasers, roombas, guard eyes and ears
+                │      └─ ReportFix / ReportMiss ───────────────▶ IThreatTracker   core/Runtime/Tracking/
+                │                                                  LastKnown | OccupancyGrid | Kalman | Particle
+                ├─ dispatch: units sent where the tracker's mass is ◀── belief only
+                ├─ units: patrol, investigate, search, chase, check lockers
+                └─ ExploitDetector (may read truth) ─▶ StageEvent.Exploit ─▶ CampaignProgress (journal, saves)
+```
+
+- `Stage` (`core/Runtime/Stages/Stage.cs`) is one level at 50 Hz, deterministic from its seed. The
+  order inside `Step` is documented at the top of the method.
+- **The only path from truth to belief is a sensor report.** Units and dispatch read
+  `Stage.Tracker`, never `Stage.Player`. Tools change what sensors report (a noise, a reflection, a
+  dead zone, a forged sighting); they never touch the tracker or units directly. This is why any tool
+  works against any tracker, and why each tracker reacts differently.
+- Each sensor's *naive coverage* (a plain cone, ignoring mirrors) is what it reports as "nobody here"
+  to the tracker. Mirrors exploit the gap between that model and real optics.
+- Levels are text (`levels/stages/`, [stage-format.md](stage-format.md)), compiled into
+  `BuiltInStages.cs`. `StageBot` and `dotnet/LowObservable.Sim stage` run them headless.
+- Unity's `EscapeGame` steps the stage and the views draw its public state. See
+  [unity-integration.md](unity-integration.md#the-escape-campaign).
+
 ## The big split
 
 ```

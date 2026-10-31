@@ -1,7 +1,24 @@
 # Roadmap
 
-Phases from [design/scope-and-roadmap.md](design/scope-and-roadmap.md), with current status. Each
-phase ends in something playable, and each phase's exit test should pass before the next starts.
+## Escape campaign (current direction, since 2026-10-31)
+
+The design pivoted: the player sees the truth and WARDEN's belief, and each zone runs a different
+tracking algorithm. Concept: [design/escape-concept.md](design/escape-concept.md).
+
+| Step | Status |
+|---|---|
+| Core: four trackers, sensors, units, tools, exploit detector, campaign and saves | **Done**, tested |
+| Nine levels: cell block (SIGHTLINE, HEATMAP), offices (KESTREL), labs (SWARM) | **Done**, all reachable; bot balance table in `make stages` |
+| Unity front end: campaign loop, belief views, cones, HUD, journal, codex, sandbox replays | **Written**, compiles against Unity's reference assemblies; not yet run in the editor |
+| First open in Unity 6, fix visuals and feel, commit generated project files | Next |
+| Playtest the cell block with 5 to 10 people | Next |
+| Server hall zone with ATLAS (SLAM), tag cloner (false loop closure), smoke | Designed |
+| Challenge modes, learned prior, ending | Designed |
+
+## Drone prototype phases
+
+Phases from [design/scope-and-roadmap.md](design/scope-and-roadmap.md), with status. These describe
+the original drone mode; the escape campaign above supersedes phases 1 to 4.
 
 | Phase | Goal | Status |
 |---|---|---|
@@ -44,7 +61,7 @@ phase ends in something playable, and each phase's exit test should pass before 
 - [ ] Association picker UX: the scope doc imagines dragging an observation onto a landmark
 - [ ] Audio cues for footsteps, pings and the Seeker's mode change (they carry information)
 - [ ] Set up the Gitea runner and push the first playtest image to the NAS
-- [ ] Playtest with 5 to 10 people against the done criteria in [game-design.md](game-design.md)
+- [ ] Playtest with 5 to 10 people against the done criteria in [drone-prototype.md](drone-prototype.md)
 
 ## Phase 2 preview: what changes in code
 

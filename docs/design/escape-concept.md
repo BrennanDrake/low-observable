@@ -275,8 +275,9 @@ sends you back to the level's last checkpoint (a holding cell); there are no liv
 ### 6.4 Post-MVP progression ideas
 
 - **Challenge modes** per level: "no tools", "WARDEN protocol: Echo" (hearing range doubled), "speed".
-- **Tracker swap mode:** replay any finished level against any tracker you've met. The best way to
-  feel how the algorithms differ, and the obvious educator mode.
+- **Tracker swap mode** (built in the MVP as *sandbox replays*): replay any finished level against
+  any tracker you've met. The best way to feel how the algorithms differ, and the obvious educator
+  mode.
 - **WARDEN learns:** across replays of a level, WARDEN's starting belief favours where you hid last
   time (a learned prior).
 
@@ -303,11 +304,12 @@ See [../game-design.md](../game-design.md) for the playable MVP. In summary:
   roombas, microphones, tripwires, lockers, light switches, doors, keycards, terminals, checkpoints,
   throwing, noisemaker, jammer, mirror, forged fix, the exploit detector, the campaign and its save
   file, nine levels in a text format, and a headless runner.
-- **Built in Unity, type-checked but not yet run in the editor:** a stage runner, views for every
-  entity and every tracker visualization, HUD, spec sheet, results screen with exploits, and a
-  campaign menu.
+- **Built in Unity, compiled against Unity's reference assemblies but not yet run in the editor:**
+  the campaign loop, views for every entity and every tracker visualization, HUD, spec sheet,
+  briefing and results screens, exploit journal, codex, sandbox replays against other trackers,
+  and the save.
 - **Designed only:** the data center zone, ATLAS, the tag cloner, smoke, drones, challenge modes,
-  tracker swap mode, the learned prior and the ending.
+  the learned prior and the ending.
 
 ## 9. Open questions
 

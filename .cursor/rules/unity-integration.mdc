@@ -3,7 +3,9 @@ description: Rules for the Unity integration package
 globs: unity/**/*.cs
 ---
 - Views read `EpisodeRunner.Episode`; only `EpisodeRunner` calls `Episode.Step`.
-- Draw beliefs, not truth. The Seeker is shown only when the drone could see it, placed in the belief frame.
+- Escape views (`Runtime/Escape/`) draw the truth plus WARDEN's belief, and never modify the `Stage`; they use `Stage` queries (`ToolTarget`, `ToolBlockedReason`, `InteractPrompt`) instead of re-deriving rules.
+- Drone prototype views draw beliefs, not truth. The Seeker is shown only when the drone could see it, placed in the belief frame.
+- Run `make unity-check` after any Unity change.
 - Support both input backends (`#if ENABLE_INPUT_SYSTEM`); keep IMGUI HUD until the UI art pass.
 - Convert types only through `UnityConvert`; draw order constants in `Layers`.
 - Unity code cannot be compiled in CI: keep it thin, put logic in the core.

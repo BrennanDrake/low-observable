@@ -348,6 +348,12 @@ namespace LowObservable.Core.Stages
 
         // ================================================================ Simulation
 
+        /// <summary>
+        /// Advances one tick of <see cref="Dt"/>. Order: player (move, interact, tools), projectiles,
+        /// noisemakers, jammers, which sensors are jammed, roombas, cameras, lasers, noises heard, tracker
+        /// predict, dispatch (every <see cref="StageTuning.DispatchPeriod"/>), units, exit check, exploit
+        /// detector, recorder. Units move after dispatch so they act on this tick's belief.
+        /// </summary>
         public void Step(StageInput input)
         {
             _events.Clear();
