@@ -1,0 +1,40 @@
+# Unity WebGL build on a Gitea Actions runner on the LAN (NAS or brennan-dev), using GameCI's editor
+# images. It needs a Unity license, so it runs at home, not on GitHub. Untested template: see
+# docs/infrastructure.md "Gitea runner" for one-time setup (runner registration, license secrets).
+#
+# Secrets (Gitea repo > Settings > Actions > Secrets): UNITY_LICENSE (contents of the .ulf file),
+# UNITY_EMAIL, UNITY_PASSWORD. Variables: NAS_REGISTRY (default 192.168.1.203:5000).
+name: unity-build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  webgl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/cache@v4
+        with:
+          path: unity/LowObservable/Library
+          key: unity-library-${{ hashFiles('unity/LowObservable/Packages/packages-lock.json') }}
+      - name: Build WebGL
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: unity/LowObservable
+          targetPlatform: WebGL
+          buildsPath: build
+          buildMethod: LowObservable.EditorTools.BuildScript.WebGLFromCi
+      - name: Push playtest image to the NAS registry
+        env:
+          nas_reg: ${{ vars.NAS_REGISTRY || '192.168.1.203:5000' }}
+        # BuildScript.WebGLFromCi writes to build/webgl, which is what build_web_image.sh packages.
+        run: ./scripts/pc/build_web_image.sh

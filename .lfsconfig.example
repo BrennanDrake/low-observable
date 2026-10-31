@@ -1,0 +1,5 @@
+# Copy to .lfsconfig (and commit it) to store LFS objects on the Gitea instance on the NAS instead of
+# GitHub. Code stays on GitHub; only large binaries move. See docs/infrastructure.md.
+#
+# [lfs]
+#     url = http://192.168.1.203:3000/BrennanDrake/low-observable.git/info/lfs

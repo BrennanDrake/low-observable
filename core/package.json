@@ -1,0 +1,11 @@
+{
+  "name": "com.brennandrake.lowobservable.core",
+  "version": "0.1.0",
+  "displayName": "Low Observable Core",
+  "description": "Engine-free estimation and game simulation for Low Observable: EKF localization, particle filters, data association, the Seeker AI and the episode loop. No UnityEngine dependency; also built and tested with dotnet (see dotnet/).",
+  "unity": "2022.3",
+  "author": {
+    "name": "Brennan Drake"
+  },
+  "keywords": ["estimation", "kalman", "particle-filter", "slam"]
+}

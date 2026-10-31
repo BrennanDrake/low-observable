@@ -1,0 +1,26 @@
+# low-observable — Cursor AI project rules
+
+You are assisting on a Unity game whose simulation core is engine-free C# (EKF, particle filter,
+data association, Seeker AI). Same conventions as turtlebot-rfid-slam.
+
+## Authoritative sources (read in order)
+
+1. `AGENTS.md` — repo map, hard rules, quality gates.
+2. `.cursor/rules/*.mdc` — scoped rules by path.
+3. `docs/architecture.md` and `docs/estimation-primer.md` before touching `core/`.
+
+## Hard constraints
+
+- `core/Runtime/` never references UnityEngine and stays at C# 9.
+- Rendering and the autopilot read beliefs, never ground truth (except the reveal screen and F1 overlay).
+- All randomness through `Maths.Rng` streams derived from the episode seed.
+- Game-feel numbers live in `TuningParameters` and are documented in `docs/tuning.md`.
+
+## Quality gates
+
+- `make lint`, `make test`; `make sim` when a change affects balance.
+
+## Output style
+
+- Use code citations (`startLine:endLine:path`) when showing existing code.
+- Prefer focused diffs; avoid unrelated refactors.

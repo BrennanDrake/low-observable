@@ -1,0 +1,7 @@
+---
+description: Shell script conventions
+globs: scripts/**/*.sh
+---
+- `#!/usr/bin/env bash`, `set -euo pipefail`, `cd "$(dirname "$0")/../.."` to run from the repo root.
+- Header comment says what it does and shows an example invocation.
+- Group by machine: `pc/`, `nas/`, `cloud/`. Must pass shellcheck.

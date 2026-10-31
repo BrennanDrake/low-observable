@@ -1,0 +1,11 @@
+---
+description: Rules for the engine-free core
+globs: core/**/*.cs, dotnet/**/*.cs
+---
+- No `UnityEngine`, no `System.Random`, no wall-clock time. Use `Maths.Rng` streams (`Rng.Derive(seed, "name")`).
+- C# 9 only (no file-scoped namespaces, record structs, global usings).
+- Use `System.Math` explicitly; the `LowObservable.Core.Maths` namespace holds our own types.
+- Wrap every bearing difference with `Angle.Wrap` / `Angle.Difference`.
+- Covariance updates: Joseph form, then `Symmetrized()`.
+- Every new estimator or rule gets a unit test in `dotnet/LowObservable.Core.Tests/`.
+- New tuning numbers go in `TuningParameters` with a doc comment, and in `docs/tuning.md`.

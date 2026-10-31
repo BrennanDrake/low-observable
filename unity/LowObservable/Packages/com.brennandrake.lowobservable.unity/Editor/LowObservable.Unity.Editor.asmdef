@@ -1,0 +1,19 @@
+{
+  "name": "LowObservable.Unity.Editor",
+  "rootNamespace": "LowObservable.EditorTools",
+  "references": [
+    "LowObservable.Core",
+    "LowObservable.Unity"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

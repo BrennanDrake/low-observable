@@ -1,0 +1,7 @@
+---
+description: Repo map, truth-vs-belief rule, scope
+alwaysApply: true
+---
+- Core simulation: `core/Runtime/` (engine-free, C# 9). Unity glue: `unity/LowObservable/Packages/com.brennandrake.lowobservable.unity/`.
+- Truth (`Episode.TruePose`, `Seeker.Pose`, `TrueLandmarkId`) is for the simulation, reveal screen, debug overlay and tests only.
+- Keep changes scoped to the task; no drive-by refactors.

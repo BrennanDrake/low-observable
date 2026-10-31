@@ -1,0 +1,7 @@
+---
+description: Python analysis tools
+globs: tools/**/*.py
+---
+- Ruff E/F/W, line length 99 (same as the robot repo).
+- Standard library where possible; matplotlib only for plotting, imported inside the function that needs it.
+- Read the CSV formats written by `RunRecorder`; do not invent new formats without updating it.
