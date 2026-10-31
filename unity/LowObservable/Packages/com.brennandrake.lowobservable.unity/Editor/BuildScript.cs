@@ -38,9 +38,10 @@ namespace LowObservable.EditorTools
                 PlayerSettings.WebGL.decompressionFallback = false;
             }
 
-            if (!File.Exists(LowObservableMenu.ScenePath)) LowObservableMenu.CreateSceneAt(LowObservableMenu.ScenePath);
+            // The escape campaign is the game; creating its scene also makes it the first build scene.
+            if (!File.Exists(LowObservableMenu.EscapeScenePath)) LowObservableMenu.CreateSceneAt(LowObservableMenu.EscapeScenePath, escape: true);
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
-            if (scenes.Length == 0) scenes = new[] { LowObservableMenu.ScenePath };
+            if (scenes.Length == 0) scenes = new[] { LowObservableMenu.EscapeScenePath };
 
             string repoRoot = Path.GetFullPath(Path.Combine(Application.dataPath, "../../.."));
             string outDir = Path.Combine(repoRoot, "build", folder);

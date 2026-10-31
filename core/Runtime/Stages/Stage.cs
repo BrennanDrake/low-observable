@@ -671,14 +671,34 @@ namespace LowObservable.Core.Stages
             }
         }
 
-        private void Launch(Vec2 aim, bool noisemaker)
+        /// <summary>
+        /// Where a tool aimed at <paramref name="aim"/> would land or be placed: throws stop short of walls and
+        /// at <see cref="StageTuning.ThrowRange"/>, placed tools at <see cref="StageTuning.MirrorPlaceRange"/>, and
+        /// a forged fix goes exactly where it is aimed. For aim previews; using the tool applies the same rule.
+        /// </summary>
+        public Vec2 ToolTarget(ToolKind tool, Vec2 aim)
         {
-            var t = Tuning;
+            switch (tool)
+            {
+                case ToolKind.Throw:
+                case ToolKind.Noisemaker:
+                    return ThrowLanding(aim);
+                case ToolKind.Jammer:
+                case ToolKind.Mirror:
+                    PlaceablePoint(aim, out var point);
+                    return point;
+                default:
+                    return aim;
+            }
+        }
+
+        private Vec2 ThrowLanding(Vec2 aim)
+        {
             var dir = aim - Player;
             double d = dir.Length;
             if (d < 1e-6) { dir = Vec2.FromAngle(PlayerHeading); d = 0.5; }
             var u = dir / d;
-            d = System.Math.Min(d, t.ThrowRange);
+            d = System.Math.Min(d, Tuning.ThrowRange);
             // Fly until just before the first wall.
             var landing = Player;
             for (double s = 0.1; s <= d + 1e-9; s += 0.1)
@@ -687,6 +707,13 @@ namespace LowObservable.Core.Stages
                 if (!Plan.IsFree(p, 0.15)) break;
                 landing = p;
             }
+            return landing;
+        }
+
+        private void Launch(Vec2 aim, bool noisemaker)
+        {
+            var t = Tuning;
+            var landing = ThrowLanding(aim);
             double flight = System.Math.Max(0.1, Vec2.Distance(Player, landing) / t.ThrowSpeed);
             Projectiles.Add(new Projectile { From = Player, To = landing, Position = Player, Duration = flight, IsNoisemaker = noisemaker });
         }

@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Type-checks the Unity package's editor scripts against UnityEditor.dll from the Unity3D.SDK NuGet
+    package (Unity 2021.1 reference assemblies; older than the project's Unity, so it only checks API
+    names). Part of `make unity-check`; not in LowObservable.sln.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>LowObservable.Unity.EditorCheck</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS0649;CS1591;MSB3277;NU1701;CS1701;CS1702</NoWarn>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="UnityEngine.Modules" Version="2021.3.33" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="Unity3D.SDK" Version="2021.1.14.1" ExcludeAssets="all" GeneratePathProperty="true" PrivateAssets="all" />
+    <ProjectReference Include="../LowObservable.Unity.TypeCheck/LowObservable.Unity.TypeCheck.csproj" />
+    <Compile Include="../../unity/LowObservable/Packages/com.brennandrake.lowobservable.unity/Editor/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="UnityEditor">
+      <HintPath>$(PkgUnity3D_SDK)/lib/UnityEditor.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -2,12 +2,14 @@
 """Render an escape stage to PNG, or a frame dump to an animated GIF.
 
     python3 tools/render_stage.py levels/stages/01-lights-out.lvl --out build/01.png
-    dotnet run --project dotnet/LowObservable.Sim -- stage --stage 01-lights-out --policy sneaker --dump build/frames
-    python3 tools/render_stage.py levels/stages/01-lights-out.lvl --frames build/frames/01-lights-out_sneaker.jsonl --out build/01.gif
+    dotnet run --project dotnet/LowObservable.Sim -- stage --stage 01-lights-out \
+        --policy sneaker --dump build/frames
+    python3 tools/render_stage.py levels/stages/01-lights-out.lvl \
+        --frames build/frames/01-lights-out_sneaker.jsonl --out build/01.gif
 
-The GIF is the replay seen from above: the true player (white), WARDEN's belief in red (a point, a heat
-map, an ellipse or particles, depending on the tracker), units (orange), cameras and their cones, roombas,
-mirrors, jammers and sound rings. Needs Pillow.
+The GIF is the replay seen from above: the true player (white), WARDEN's belief in red (a point,
+a heat map, an ellipse or particles, depending on the tracker), units (orange), cameras and their
+cones, roombas, mirrors, jammers and sound rings. Needs Pillow.
 """
 from __future__ import annotations
 
@@ -87,7 +89,8 @@ def draw_map(draw: ImageDraw.ImageDraw, rows, entities, dark_cells=None, open_do
             elif dark_cells is not None:
                 color = COLORS["dark"] if (i, j) in dark_cells else COLORS["floor"]
             else:
-                color = COLORS["dark"] if ch in ",h" or "dark=1" in attrs.get(ch, "") else COLORS["floor"]
+                is_dark = ch in ",h" or "dark=1" in attrs.get(ch, "")
+                color = COLORS["dark"] if is_dark else COLORS["floor"]
             kind = kinds.get(ch)
             if kind == "door":
                 color = COLORS["floor"] if open_doors and (i, j) in open_doors else COLORS["door"]
@@ -227,7 +230,8 @@ def main():
         img = Image.new("RGB", (w * CELL, h * CELL + 30), (0, 0, 0))
         draw = ImageDraw.Draw(img, "RGBA")
         draw_map(draw, rows, entities)
-        draw.text((4, h * CELL + 8), f"{header.get('title', '')}  [{header.get('tracker', '')}]", fill=(255, 255, 255), font=font)
+        caption = f"{header.get('title', '')}  [{header.get('tracker', '')}]"
+        draw.text((4, h * CELL + 8), caption, fill=(255, 255, 255), font=font)
         img.save(args.out)
         return
     frames = [json.loads(line) for line in args.frames.read_text().splitlines() if line.strip()]
