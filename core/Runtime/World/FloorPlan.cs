@@ -80,6 +80,15 @@ namespace LowObservable.Core.World
 
         public CellFlags GetCell(int i, int j) => InBounds(i, j) ? _cells[i, j] : CellFlags.Wall;
 
+        /// <summary>
+        /// Changes a cell at runtime (doors opening, lights switching). Only the escape mode does this;
+        /// systems that cache free cells (trackers, particle filters) must be told to refresh.
+        /// </summary>
+        public void SetCell(int i, int j, CellFlags flags)
+        {
+            if (InBounds(i, j)) _cells[i, j] = flags;
+        }
+
         public CellFlags GetCellAt(Vec2 p)
         {
             WorldToCell(p, out int i, out int j);

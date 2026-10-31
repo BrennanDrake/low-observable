@@ -20,6 +20,7 @@ namespace LowObservable.Sim
     {
         public static int Main(string[] args)
         {
+            if (args.Length > 0 && args[0] == "stage") return StageCli.Run(args.Skip(1).ToArray());
             var opts = Options.Parse(args);
             if (opts.Help)
             {

@@ -1,0 +1,29 @@
+; Level 1. Teaches: the visor, moving, breaking line of sight, throwing.
+; SIGHTLINE only remembers where you were last reported.
+title: Lights Out
+zone: Cell Block C
+tracker: lastknown
+par: 150
+banner: LOCKDOWN ACTIVE. INMATES REMAIN IN CELLS. TRACKING MODE: SIGHTLINE v1.
+botroute: X
+map:
+##################################
+#,,,,#....#....#....#....#.......#
+#,S,,#.o..#....#.2..#..o.#...X...#
+#,,1,#....#....#....#....#.......#
+##.###.####.####.####.####.###.###
+#...a............................#
+#..............K.................#
+#..d...........................f.#
+##.###.##########.########.#######
+#....#.......#........#,,,,,,,,,,#
+#.o..#...4.......G....#,,,,,,3,o,#
+#....#.......#.................,,#
+##################################
+entities:
+note 1 kind=chalk text="Tally marks, hundreds of them. Under them in chalk: THE VISOR SHOWS WHAT IT THINKS. NOT WHAT IS."
+note 2 kind=chalk text="A drawing of a camera and its cone. Underneath: IT ONLY KNOWS WHERE IT LAST SAW YOU. SO DON'T BE THERE."
+note 3 kind=graffiti text="DON'T RUN. THEY HEAR RUNNING. (hold Ctrl)"
+note 4 kind=poster text="HALVORSEN CORRECTIONAL & RESEARCH. Predict. Prevent. Protect."
+camera K dir=0 range=8
+guard G route=adf

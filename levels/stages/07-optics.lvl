@@ -1,0 +1,33 @@
+; Level 7. WARDEN upgrades to SWARM (particle filter). Teaches: the particle cloud, mirrors (false sightings, blind spots).
+; The airlock terminal sits in front of a camera: stand there unseen, or make the camera see you somewhere else.
+title: Optics
+zone: R&D Labs
+tracker: particle
+par: 240
+banner: ADMINISTRATION BREACH. LAB TRACKING: SWARM v4. 500 HYPOTHESES ONLINE.
+botroute: MTX
+map:
+##########################################
+#S...#...........#.........#,,,,,,,,,,,,,#
+#....#....1......#....M....#,,,,,,,,,,,,,#
+#....#...........#.........#,,,,,,,,,,,,,#
+#.......a.........................b...,,,#
+#....#...........#.........#,,,,,,,,,,,,,#
+##.###.....W.....#####.#####,,,,,,,,,,,,,#
+#...............................u..T....V#
+#..o.........#########.#########.##E######
+#....G.......#.......#.#.......#.#.....2.#
+#..c.........#...3...#.#.......#.#....X..#
+#............#.......#.#.......#.#.......#
+##########################################
+entities:
+note 1 kind=whiteboard text="SWARM v4: 500 guesses. Each one a hypothesis. The likely ones multiply, the rest die. (Someone has drawn a sad face next to a dying dot.)"
+note 2 kind=sticky text="Airlock camera can't tell a person from a reflection. Facilities says mirrors STAY in the optics lab."
+note 3 kind=whiteboard text="Subject calibration log. C-3: caught. C-5: caught. C-7: ESCAPED x4. 'C-7 evades by managing what the cameras can see.'"
+pickup M tool=mirror
+camera W dir=0 range=9
+camera V dir=180 range=9
+swivel u from=180 to=300 period=7 range=7
+terminal T opens=E
+door E
+guard G route=abc

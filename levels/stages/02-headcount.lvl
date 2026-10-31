@@ -1,0 +1,29 @@
+; Level 2. Teaches: swivel camera timing, a patrol unit, luring with a thrown object, keycards.
+title: Headcount
+zone: Cell Block C
+tracker: lastknown
+par: 180
+banner: HEADCOUNT: 211. PRESENT: 210. SIGHTLINE v1 REMAINS ACTIVE.
+botroute: kDX
+map:
+########################################
+#,,,,#.........#..........#.........c..#
+#,S,,#....o....#....1.....#.....k......#
+#,,,,#.........#..........#............#
+##.###.........#####.######............#
+#....................................G.#
+#..a.......s...................b.......#
+#..........................w...........#
+######.#########.#######.###############
+#..o...#,,,,,,,,,,,,#.........#........#
+#......#,,,,,,,,,,,,#....2....D....X...#
+#......#,,,,,,,o,,,,#.........#........#
+########################################
+entities:
+note 1 kind=screen text="HEADCOUNT 06:00. EXPECTED 211. PRESENT 210. MISSING: C-7. ESTIMATED LOCATION: CELL C-7."
+note 2 kind=sticky text="Station keycard is on the desk AGAIN. Stop leaving it there. - Sgt. Moreno"
+swivel s from=20 to=160 period=6 range=7
+swivel w from=200 to=340 period=5 range=6 phase=0.5
+keycard k name=station
+door D key=station
+guard G route=cab
