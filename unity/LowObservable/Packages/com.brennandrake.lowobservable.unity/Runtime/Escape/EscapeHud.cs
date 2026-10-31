@@ -29,7 +29,7 @@ namespace LowObservable.Unity.Escape
 
         private void Start()
         {
-            if (Game == null) Game = FindFirstObjectByType<EscapeGame>();
+            if (Game == null) Game = FindAnyObjectByType<EscapeGame>();
             Game.EventRaised += OnEvent;
             Game.StageStarted += _ =>
             {

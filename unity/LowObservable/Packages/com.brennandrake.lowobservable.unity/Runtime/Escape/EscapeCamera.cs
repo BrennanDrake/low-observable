@@ -20,7 +20,7 @@ namespace LowObservable.Unity.Escape
 
         private void Start()
         {
-            if (Game == null) Game = FindFirstObjectByType<EscapeGame>();
+            if (Game == null) Game = FindAnyObjectByType<EscapeGame>();
             _camera = GetComponent<Camera>();
             _camera.orthographic = true;
             _camera.orthographicSize = PlaySize;

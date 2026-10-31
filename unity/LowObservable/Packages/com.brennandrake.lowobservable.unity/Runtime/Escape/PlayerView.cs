@@ -26,7 +26,7 @@ namespace LowObservable.Unity.Escape
 
         private void Start()
         {
-            if (Game == null) Game = FindFirstObjectByType<EscapeGame>();
+            if (Game == null) Game = FindAnyObjectByType<EscapeGame>();
             _body = ViewKit.CreateShape(transform, "Player", EscapePalette.Player, Size, EscapeLayers.Player);
             _body.transform.rotation = Quaternion.Euler(0, 0, 45f);
             _heading = ViewKit.CreateShape(transform, "Player heading", EscapePalette.Player, Size * 0.9f, EscapeLayers.Player, triangle: true);

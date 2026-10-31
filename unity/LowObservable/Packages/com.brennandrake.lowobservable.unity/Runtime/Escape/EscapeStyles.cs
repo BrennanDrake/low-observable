@@ -28,7 +28,7 @@ namespace LowObservable.Unity.Escape
             _panelTex = _panelTex != null ? _panelTex : Solid(PanelColor);
             _noteTex = _noteTex != null ? _noteTex : Solid(NoteColor);
             _boxTex = _boxTex != null ? _boxTex : Solid(new Color(1f, 1f, 1f, 0.08f));
-            _selTex = _selTex != null ? _selTex : Solid(new Color(0.35f, 1f, 0.6f, 0.28f));
+            _selTex = _selTex != null ? _selTex : Solid(new Color(0.12f, 0.45f, 0.25f, 0.85f));
             _btnTex = _btnTex != null ? _btnTex : Solid(new Color(1f, 1f, 1f, 0.12f));
             _btnHoverTex = _btnHoverTex != null ? _btnHoverTex : Solid(new Color(1f, 1f, 1f, 0.24f));
 
@@ -44,6 +44,8 @@ namespace LowObservable.Unity.Escape
             Panel.normal.background = _panelTex;
             Box = new GUIStyle(Panel) { padding = new RectOffset(Px(8), Px(8), Px(6), Px(6)) };
             Box.normal.background = _boxTex;
+            // The default box text is mid grey, unreadable on the green "selected" tint.
+            Box.normal.textColor = new Color(0.95f, 0.95f, 0.97f);
             Selected = new GUIStyle(Box);
             Selected.normal.background = _selTex;
             Button = new GUIStyle(GUI.skin.button) { fontSize = fs, richText = true, alignment = TextAnchor.MiddleLeft, padding = new RectOffset(Px(10), Px(10), Px(6), Px(6)), wordWrap = true };

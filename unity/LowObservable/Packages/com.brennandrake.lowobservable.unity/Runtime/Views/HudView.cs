@@ -25,7 +25,7 @@ namespace LowObservable.Unity.Views
 
         private void Start()
         {
-            if (Runner == null) Runner = FindFirstObjectByType<EpisodeRunner>();
+            if (Runner == null) Runner = FindAnyObjectByType<EpisodeRunner>();
             Runner.EventRaised += OnEvent;
             Runner.EpisodeStarted += _ => _log.Clear();
         }

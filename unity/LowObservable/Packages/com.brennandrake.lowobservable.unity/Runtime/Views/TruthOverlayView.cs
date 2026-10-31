@@ -16,7 +16,7 @@ namespace LowObservable.Unity.Views
 
         private void Start()
         {
-            if (Runner == null) Runner = FindFirstObjectByType<EpisodeRunner>();
+            if (Runner == null) Runner = FindAnyObjectByType<EpisodeRunner>();
             _truth = ViewKit.CreateShape(transform, "Drone (truth)", TruthColor, 0.4f, Layers.Truth, triangle: true);
             _error = ViewKit.CreateLine(transform, "Estimation error", TruthColor, 0.03f, Layers.Truth);
         }

@@ -47,7 +47,7 @@ namespace LowObservable.Unity.Escape
 
         private void Start()
         {
-            if (Game == null) Game = FindFirstObjectByType<EscapeGame>();
+            if (Game == null) Game = FindAnyObjectByType<EscapeGame>();
             var c = EscapePalette.Belief;
             _xA = ViewKit.CreateLine(transform, "Last known A", c, 0.12f, EscapeLayers.BeliefMarks);
             _xB = ViewKit.CreateLine(transform, "Last known B", c, 0.12f, EscapeLayers.BeliefMarks);

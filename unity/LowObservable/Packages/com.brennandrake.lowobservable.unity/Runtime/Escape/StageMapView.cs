@@ -42,7 +42,7 @@ namespace LowObservable.Unity.Escape
 
         private void Start()
         {
-            if (Game == null) Game = FindFirstObjectByType<EscapeGame>();
+            if (Game == null) Game = FindAnyObjectByType<EscapeGame>();
             _floor = EscapeDraw.CreateMeshObject(transform, "Floor", EscapeLayers.Floor, out _floorMesh);
             _props = new ShapePool(transform, "Prop", 0.6f, EscapeLayers.Props);
             _propsSmall = new ShapePool(transform, "Prop small", 0.3f, EscapeLayers.Props + 1);

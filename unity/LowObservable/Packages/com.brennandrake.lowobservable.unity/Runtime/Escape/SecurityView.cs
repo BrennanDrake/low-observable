@@ -35,7 +35,7 @@ namespace LowObservable.Unity.Escape
 
         private void Start()
         {
-            if (Game == null) Game = FindFirstObjectByType<EscapeGame>();
+            if (Game == null) Game = FindAnyObjectByType<EscapeGame>();
             _bodies = new ShapePool(transform, "Unit body", 0.7f, EscapeLayers.Units);
             _heads = new ShapePool(transform, "Unit heading", 0.8f, EscapeLayers.Units + 1, triangle: true);
             _small = new ShapePool(transform, "Gadget", 0.3f, EscapeLayers.Gadgets);
