@@ -162,7 +162,7 @@ map:
 #....#.........#,,,,,,,,,,,,#.........######
 ###.##########.######,#######..s..........##
 #...........M...............b.........r..c.#
-#..q.......................................#
+#..q.............................J.......e.#
 #####.#######.######.#######.#####.#########
 #.....#.....#..2...#...G...#.....#,,,,,,,,,#
 #..o..#.....#......#.......#..L..#,,,k,,,,,#
@@ -196,6 +196,8 @@ swivel s from=150 to=330 period=8 range=9
 keycard k name=manager
 door D key=manager
 guard G route=abc
+; Posted outside the manager's office: the keycard run can't be a sprint.
+guard J route=Je speed=0.8
 ",
             ["06-it-closet"] = @"; Level 6. KESTREL. Teaches: the jammer (missing data), overshoot (constant-velocity model), combined pressure.
 title: IT Closet
