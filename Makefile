@@ -1,5 +1,5 @@
 # Convenience targets. Every target wraps a script in scripts/ so CI, the NAS and humans run the same thing.
-.PHONY: lint test sim sim-runs unity web-image registry-tags clean
+.PHONY: lint test sim sim-runs stages stage-gen unity-check unity web-image registry-tags clean
 
 lint:
 	@./scripts/pc/lint.sh
@@ -15,6 +15,18 @@ sim:
 # Same, but also write per-run CSVs to experiments/runs for tools/plot_run.py.
 sim-runs:
 	@./scripts/pc/sim.sh --policy all --seeds 5 --out experiments/runs
+
+# Escape campaign: reachability of every level, then a bot balance table.
+stages:
+	@./scripts/pc/stage_check.sh
+
+# Regenerate core/Runtime/Stages/BuiltInStages.cs from levels/stages/*.lvl.
+stage-gen:
+	@python3 scripts/pc/gen_stages.py
+
+# Compile the Unity scripts against Unity's reference assemblies (no editor needed; uses nuget.org).
+unity-check:
+	@./scripts/pc/unity_check.sh
 
 # Unity WebGL build in batch mode (needs UNITY_PATH or Unity Hub's default install).
 unity:

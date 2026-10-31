@@ -1,97 +1,108 @@
-# Game design: the MVP
+# Game design: the escape MVP
+
+The full concept (story, all five WARDEN models, the toolkit, post-MVP ideas) is in
+[design/escape-concept.md](design/escape-concept.md). This page is what is built and playable.
+The earlier drone mode is described in [drone-prototype.md](drone-prototype.md).
 
 ## One rule
 
-**The player never sees the truth.** The screen shows the drone's belief about itself and the
-hunter's belief about the drone. The real world exists underneath and only shows itself through
-bumps, failed docks, the Seeker appearing in your camera, and the reveal screen at the end.
+**You always know the truth. WARDEN never does. You can see its mind.**
+
+The player sees the real facility, the real guards and cameras, and themselves. Over that, in red, is
+WARDEN's belief about where they are, drawn the way WARDEN's current algorithm represents it. The game
+is making that belief wrong in useful ways.
 
 ## Premise
 
-You are a maintenance drone in Annex B, a wing of a facility taken over by WARDEN, a rogue AI. One
-of its hunter units, the **Seeker**, is looking for you. Reach the uplink on the far side of the
-floor and dock with it before the Seeker reaches you.
-
-You have the floor's blueprint (walls, landmarks, lighting), so the MVP is a **localization**
-problem: knowing where you are on a known map. Building the map yourself comes in phase 2.
+You are C-7, a "calibration subject" at Halvorsen Correctional & Research, a private prison that rents
+its inmates to its own AI lab. WARDEN, the facility AI, is the lab's product; you are its test data.
+Escape through the cell block, the administration offices and the research labs. No cutscenes: the
+story is in notes, whiteboards, bug tickets and chalk marks left by people who tried before you.
 
 ## What is on screen
 
-| Element | What it is | The math underneath |
-|---|---|---|
-| Blue triangle | Where the drone believes it is, pointing where it believes it faces | EKF mean |
-| Blue ellipses | 1-sigma and 2-sigma uncertainty of that position | EKF position covariance |
-| Blue fan | How unsure the heading is | EKF heading variance |
-| Red cloud | Where the Seeker thinks you are, one dot per hypothesis | Seeker's particle filter |
-| Red triangle and cone | The Seeker, only while your camera can actually see it | Truth, perceived through your sensors |
-| Blueprint | Walls, lit/dark/slick floor, landmarks coloured by appearance, the uplink | The known map |
+| Element | What it is |
+|---|---|
+| White diamond | You (grey when hidden in a locker). A stamina bar appears under you while running |
+| Red belief | WARDEN's estimate of you: an X, a heat map, an ellipse with a velocity arrow, or a particle cloud |
+| Red rings | A report WARDEN just took in, where it placed it. Grey rings and a grey X: a report it threw away |
+| Purple and orange fans | Camera and guard vision, clipped by walls. Red when alarmed, grey when jammed |
+| Orange line from a guard | Where WARDEN sent it: the consequence of its belief |
+| White rings | Sounds, drawn at the radius they carry |
+| Cyan circles | Roombas (some wear party hats). They report what they bump into, then apologize |
+| Green dots and rings | Microphones and their hearing range |
+| Red lines | Tripwires |
+| HUD, top left | Level, WARDEN's model, and what it thinks right now ("it's looking elsewhere", "it knows where you are") with the belief mass on you |
 
-## Your tools
+## WARDEN's four models (the MVP campaign)
 
-| Tool | Key | Helps you | Costs you |
+| Zone | Model | Algorithm | What it can't do (the lesson) |
 |---|---|---|---|
-| Odometry | always on | Tracks your motion for free | Drifts; much worse sprinting and on slick floor |
-| Camera | always on (2 Hz) | Recognizes landmarks nearby, so matching is easier | Useless in the dark; poor at range; identical-looking landmarks fool it |
-| Ping | Space | Precise range and bearing to every landmark in sight | Loud: the Seeker hears it across most of the floor. Cooldown 1.5 s |
-| Listen | F | A noisy bearing to the Seeker | You stand still for a second |
-| Decoy | Q (aims at the mouse) | Broadcasts a fake ping, splitting the Seeker's belief | Two per floor. Thrown relative to where you *think* you are |
-| Dock | E | Wins the floor if you're really at the uplink | A failed dock is noisy and tells you that you were wrong |
+| Cell Block (1-2) | SIGHTLINE v1 | Last-known position | No motion model and no noise model: it waits where you were, and believes any noise |
+| Cell Block (3) | HEATMAP v2 | Occupancy grid (histogram Bayes filter) | Learns from absence, so freshly swept rooms are safe; heat spreads only as fast as it assumes you walk |
+| Administration (4-6) | KESTREL v3 | Kalman filter, constant velocity | One Gaussian: two reports become one estimate in the empty middle; reports far outside the ellipse are discarded; it extrapolates straight lines |
+| Research Labs (7-9) | SWARM v4 | Particle filter | Can split between hypotheses; a report that claims to be certain starves every particle that disagrees |
 
-Movement modes trade speed for noise and drift: **creep** (Ctrl) is silent and precise, **walk** is
-balanced, **sprint** (Shift) is fast, loud, and the wheels slip.
+Before each level a briefing shows the model's spec sheet in plain words, with the textbook name and
+one line of maths. Tab shows it again in play. Each model has hidden weaknesses ("exploits"); pulling
+one off adds an entry to the **exploit journal** with what happened, the real term, and why it works.
 
-## The central tension
+## Your verbs and tools
 
-Everything that hides you also blinds you, and everything that helps you navigate gives you away:
+| Input | Verb |
+|---|---|
+| WASD, Shift, Ctrl | Move, run (stamina), sneak (quiet) |
+| E | Read, take, hide, flip a switch, take a mirror back; hold at terminals |
+| 1-5, Q, right click | Pick a tool |
+| Left click | Use it at the cursor (a preview shows where it lands, green if it can be used) |
+| Scroll or [ ] | Rotate the mirror before placing it |
+| Tab, M, R, Esc | Spec sheet, map overview, restart, pause |
 
-- Dark rooms hide you from the Seeker's camera and make your own camera useless.
-- The dark, slick service corridor is the shortest route, but the floor slips more than your filter
-  assumes, so you have to ping, and the Seeker's hub is right next door.
-- The twin labs on the north loop are hidden from the hub, but their landmarks look identical, so
-  your camera can match the wrong lab's valve and your belief jumps somewhere wrong.
-- Pinging fixes your position and hands the Seeker your position in the same instant.
+| Tool | Found | What it does to WARDEN's inputs |
+|---|---|---|
+| Throw | Always (pick things up first) | One landing noise. A false report |
+| Noisemaker | Level 4 | Four bursts as loud as running. Sticks to roombas, making a moving decoy |
+| Jammer | Level 6 | Sensors inside report nothing, not even "nobody here". WARDEN gets a vague fix on the jammer |
+| Mirror | Level 7 | Cameras that see you in it report your reflection; their naive coverage model also thinks it sees through it |
+| Forged fix | Level 8 | At a maintenance terminal: upload one near-certain fake sighting |
 
-## The Seeker
+Tools act on WARDEN's inputs, never on its decisions. That rule is what keeps them a sandbox: any tool
+works against any model, and the same action has a different effect on each.
 
-The Seeker runs a particle filter on your position and acts on it:
+## Progression
 
-- **Hearing:** footsteps (radius depends on your mode), pings, failed docks and decoys give it a
-  noisy fix. Walls muffle sound.
-- **Seeing you:** a strong fix when you're in its cone, in range, in line of sight and lit (or very close).
-- **Not seeing you:** where it looks and finds nothing, it removes hypotheses. This is why it
-  sweeps its camera while searching, and why hiding in a spot it just checked works.
-- **Behaviour:** searches toward the most likely area while its belief is spread out; hunts at
-  speed once its belief is tight. It catches you when it reaches your *true* position.
-
-The red cloud is shown openly in the MVP so players can learn how their noise moves it. Later
-phases can hide it behind a counter-intelligence tool.
-
-## Data association
-
-Measurements don't say which landmark they came from. When more than one landmark could explain a
-measurement, the game pauses and asks you to pick (or ignore it). This is the "real-time with pause"
-part of the design. A wrong pick quietly corrupts your belief and you find out later, usually at
-the dock. Set `Association` to `AutoBest` on the `EpisodeRunner` to let the filter guess instead.
-
-## The reveal screen
-
-When the floor ends, the camera pulls back to show where you really went (white) against where you
-thought you were (blue), the Seeker's path, your error, how often the truth was inside your 95%
-ellipse, and how many landmark matches were wrong. A scrubber replays the belief over time. This is
-where the learning lands: the score rewards an honest belief, not just a correct one.
+- **Campaign:** nine levels, unlocked in order. Each records three marks: Escaped, Unseen (never
+  sighted), Untouched (never caught), plus best time against par.
+- **Tools** found in a level stay for the rest of the campaign.
+- **Exploit journal:** 12 entries, most tied to one model and a few (mirrors, the jammer) to any. The menu shows which you
+  have found per model, and the results screen nudges you when a model still has undiscovered ones.
+- **Codex:** spec sheets for every model you have met.
+- **Sandbox replays:** replay a cleared level against any model you have met. Same room, different
+  maths. Marks aren't recorded; new exploits still are.
+- **Capture** sends you back to the last checkpoint and resets WARDEN's belief. No lives.
 
 ## What a player learns, without being told
 
-1. Moving without sensing makes you less sure (prediction grows covariance).
-2. Sensing makes you more sure, in a shape that depends on the sensor (likelihoods differ).
-3. The quality of an estimate depends on what can be observed (darkness, aliasing).
-4. A filter can be confidently wrong when its model is wrong (slick floors; wrong matches).
-5. Indistinguishable signals split a belief (decoys against the Seeker's particle filter).
-6. Absence of evidence is evidence (the Seeker clearing places it looked).
-7. Both sides are solving the same problem.
+| After | They can say, in their own words |
+|---|---|
+| Cell Block | "It goes to where it last saw me." "It believes any noise." "If it checks a room and I'm not there, it stops looking there." |
+| Administration | "It thinks I'm somewhere between two alarms." "It ignored a camera that saw me because it was too sure I was elsewhere." "It keeps going in the direction I was running." |
+| Labs | "It can think I'm in two places." "If I make it certain of the wrong place, it can't find me again for a while." |
+
+The journal then attaches the real terms: point estimate, sensor noise model, negative information,
+unimodal Gaussian, innovation gating, constant-velocity model, multimodal belief, particle depletion.
+
+## Comedy
+
+Roombas wear party hats and announce "OBSTRUCTION REPORTED. SORRY." over their heads. Guards bark
+"INVESTIGATING." and "TRAIL LOST." Bug tickets in the offices are written by engineers who know about
+every weakness you are about to use and closed them as WONTFIX.
 
 ## MVP done criteria
 
-From the scope doc: 5 to 10 playtesters who don't know estimation theory can (a) escape at least
-once in a few tries, (b) explain a capture in terms of what the Seeker knew ("I pinged and it
-locked on"), and (c) choose sensors and routes on purpose by their second or third try.
+- [x] Four trackers with tests for the weakness each level is built around
+- [x] Nine levels, every one reachable with sensors off (`make stages`)
+- [x] Unity campaign loop, views, HUD and menus compile against Unity's reference assemblies (`make unity-check`)
+- [ ] Opened and played in the Unity editor
+- [ ] Five to ten playtesters finish the cell block without help, and can explain one exploit per model
+      in their own words afterwards

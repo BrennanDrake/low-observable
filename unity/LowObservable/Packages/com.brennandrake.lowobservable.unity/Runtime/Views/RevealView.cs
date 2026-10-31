@@ -27,7 +27,7 @@ namespace LowObservable.Unity.Views
 
         private void Start()
         {
-            if (Runner == null) Runner = FindFirstObjectByType<EpisodeRunner>();
+            if (Runner == null) Runner = FindAnyObjectByType<EpisodeRunner>();
             _truthPath = ViewKit.CreateLine(transform, "Reveal truth path", TruthColor, 0.06f, Layers.Reveal);
             _beliefPath = ViewKit.CreateLine(transform, "Reveal belief path", BeliefColor, 0.06f, Layers.Reveal);
             _seekerPath = ViewKit.CreateLine(transform, "Reveal seeker path", SeekerColor, 0.05f, Layers.Reveal);

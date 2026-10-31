@@ -1,0 +1,33 @@
+; Level 6. KESTREL. Teaches: the jammer (missing data), overshoot (constant-velocity model), combined pressure.
+title: IT Closet
+zone: Administration
+tracker: kalman
+par: 260
+banner: ELEVATOR B: RESTRICTED. KESTREL v3 PREDICTS: SUBJECT WILL ATTEMPT ELEVATOR B.
+botroute: JTX
+map:
+############################################
+#S...#....................#,,,,,,,,#.......#
+#....#..a.............b...#,,,J,,,,#...X...#
+#.1..#....................#,,,,,,,,#.......#
+#....#.......#####........#,,,,,,,,###E#####
+#..............#.......................c.Q.#
+###.###........#....................K......#
+#.......................r..................#
+#...........G......#####.....#####.........#
+#..o.....d.........#...#.....#.T.#....3....#
+#..................#.2.#.....#...#....m....#
+#.......................................H..#
+############################################
+entities:
+note 1 kind=poster text="IT NOTICE: Do NOT test the signal jammer near the cameras. They go blind and WARDEN files a ticket. - IT"
+note 2 kind=sticky text="KESTREL keeps 'predicting' people running into walls. It just assumes you keep going straight. lol"
+note 3 kind=ticket text="BUG KESTREL-301: Jammed camera reported nothing (not even 'clear'). Tracker ellipse grew until it covered half the floor."
+pickup J tool=jammer
+terminal T opens=E
+door E
+camera K dir=135 range=8
+mic m sensitivity=1.5
+roomba r
+guard G route=abd
+guard Q route=c

@@ -162,7 +162,9 @@ namespace LowObservable.Unity.Input
                 case KeyId.LeftShift: return Key.LeftShift;
                 case KeyId.RightShift: return Key.RightShift;
                 case KeyId.LeftCtrl: return Key.LeftCtrl;
-                default: return Key.Digit0 + (id - KeyId.Digit0);
+                case KeyId.Digit0: return Key.Digit0;
+                // The Input System orders digits 1..9 then 0, so offset from Digit1.
+                default: return Key.Digit1 + (id - KeyId.Digit1);
             }
         }
 #endif

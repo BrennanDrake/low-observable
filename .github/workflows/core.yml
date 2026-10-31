@@ -25,6 +25,8 @@ jobs:
         run: dotnet test dotnet/LowObservable.Core.Tests -c Release --no-build -nologo --logger "trx;LogFileName=core-tests.trx"
       - name: Headless simulation smoke test
         run: dotnet run -c Release --no-build --project dotnet/LowObservable.Sim -- --policy all --seeds 3 --out build/sim --summary-only
+      - name: Escape levels reachable
+        run: dotnet run -c Release --no-build --project dotnet/LowObservable.Sim -- stage --check
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
@@ -33,6 +35,16 @@ jobs:
           path: |
             dotnet/LowObservable.Core.Tests/TestResults/
             build/sim/
+
+  unity-check:
+    # Compiles the Unity scripts against Unity's reference assemblies from NuGet. No editor or license.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: ./scripts/pc/unity_check.sh
 
   tools:
     runs-on: ubuntu-latest

@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Compiles the Unity package's runtime scripts against Unity's public reference assemblies (the
+    UnityEngine.Modules NuGet package) so Unity code gets a type check without the editor. It is not
+    in LowObservable.sln and needs nuget.org: run it with `make unity-check`. It cannot catch
+    everything (no Input System package, so ENABLE_INPUT_SYSTEM stays off, and no editor scripts),
+    but it catches typos, wrong core API calls and C# 9 violations.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>LowObservable.Unity.TypeCheck</AssemblyName>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- CS0649: fields assigned by the inspector. MSB3277: Unity's net45 assemblies vs netstandard. -->
+    <NoWarn>$(NoWarn);CS0649;CS1591;MSB3277;NU1701</NoWarn>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(InputSystem)' == 'true'">
+    <DefineConstants>$(DefineConstants);ENABLE_INPUT_SYSTEM</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(InputSystem)' == 'true'">
+    <Compile Include="Stubs/InputSystemStub.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="UnityEngine.Modules" Version="2021.3.33" IncludeAssets="compile" PrivateAssets="all" />
+    <ProjectReference Include="../LowObservable.Core/LowObservable.Core.csproj" />
+    <Compile Include="../../unity/LowObservable/Packages/com.brennandrake.lowobservable.unity/Runtime/**/*.cs" />
+  </ItemGroup>
+</Project>

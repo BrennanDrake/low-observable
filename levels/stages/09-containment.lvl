@@ -1,0 +1,37 @@
+; Level 9. SWARM, two units sharing one belief. Everything at once. Ends at the data center lift.
+title: Containment
+zone: R&D Labs
+tracker: particle
+par: 320
+banner: ALL UNITS SHARE ONE BELIEF. SWARM v4: 500 HYPOTHESES. SUBJECT C-7: YOU WILL BE SEEN.
+botroute: kTX
+map:
+##############################################
+#S...#..........#.........#,,,,,,,,#.........#
+#....#....1.....#....a....#,,,h,,,,#....k....#
+#....#..........#.........#,,,,,,,,#.........#
+#.......................................m....#
+#....#....r.....#.........#,,,,,,,,#.........#
+##.####.........###.#######,,,,,,,,##.########
+#......7......w.......................b......#
+#...o.....................G.........K.....Q..#
+#......4.................................c...#
+###########.######.######.##########.#########
+#......#......#.........#........#...........#
+#..2...#..F...#....T.............E.....X.....#
+#......#......#.........#........#...........#
+##############################################
+entities:
+note 1 kind=whiteboard text="Containment rule 1: units share one belief. If one unit hears you, every unit knows."
+note 2 kind=screen text="DATA CENTER LIFT: ONLINE. ATLAS v5 DEPLOYMENT: 34%."
+laser 4 to=7
+mic m sensitivity=1.6
+roomba r
+swivel w from=200 to=340 period=6 range=8
+camera K dir=180 range=9
+terminal F kind=forge
+terminal T opens=E
+door E
+keycard k name=lift
+guard G route=ab
+guard Q route=cb

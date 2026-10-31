@@ -1,0 +1,32 @@
+; Level 3. WARDEN upgrades to HEATMAP. Teaches: negative information, hiding spots, darkness, noisy terminals.
+title: The Yard
+zone: Cell Block C
+tracker: grid
+par: 240
+banner: SUBJECT C-7: TRAIL LOST TWICE. UPGRADING TRACKER TO HEATMAP v2.
+botroute: TX
+map:
+##############################################
+#S...#,,,,,,,,,#................#,,,,,,,,,,,,#
+#....#,,,,h,,,,#..a..........b..#,,,,,,h,,,,,#
+#.1..#,,,,,,,,,#................#,,,,,,,,,,,,#
+#...........................s...,,,,,,,,,,,,,#
+###.###,,,,,,,,#.....H..........#,,,,,,,,,,,,#
+#.....#,,,,,,,,#.......G........####.#########
+#..o..#,,,,,,,,#................#............#
+#.....######.###...w............#...T....2...#
+#...............................#............#
+#######.####.....H.....e.....K..#####.########
+#X....E.....#.........c..........d...........#
+#.....#..3..#.........o.........#,,,,h,,,,,,,#
+##############################################
+entities:
+note 1 kind=screen text="TRACKER UPDATE AVAILABLE: HEATMAP v2. 'Remembers everywhere you might be.' INSTALLING."
+note 2 kind=sticky text="Gate terminal beeps the whole time you use it. Engineering says it's a feature."
+note 3 kind=chalk text="An arrow drawn on the floor toward the yard. Next to it: THE LOCKERS. AFTER THE CAMERA LOOKS AWAY."
+swivel s from=150 to=290 period=7 range=8
+swivel w from=-20 to=110 period=6 range=8 phase=0.3
+guard G route=ab
+guard K route=ecd
+terminal T opens=E
+door E

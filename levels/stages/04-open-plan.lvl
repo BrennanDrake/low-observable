@@ -1,0 +1,31 @@
+; Level 4. WARDEN upgrades to KESTREL (Kalman). Teaches: the ellipse, roombas, the noisemaker, the midpoint.
+title: Open Plan
+zone: Administration
+tracker: kalman
+par: 210
+banner: CELL BLOCK BREACH. ADMINISTRATION TRACKING: KESTREL v3.
+botroute: NX
+map:
+############################################
+#S..#.............................#.......X#
+#...#..##.##.##..##.##.##..##.##..#.......##
+#...#..#d..#......#...#......#..c.#.......##
+#..........................r.....Z........##
+#...#..##.##.##..##.##.##..##.##..#....2..##
+#...#..#...#......#...#......#....###.######
+###.#.....................................##
+#...#..##.##.##..##.##.##..##.##..#.......##
+#.1.#..#...#......#...#.....q#....#...N...##
+#...#...a.....................K..b#..3....##
+#...#...G.........................#.......##
+############################################
+entities:
+note 1 kind=poster text="KESTREL v3: 'It knows where you're going before you do.' Quarterly incident prediction accuracy: 94%."
+note 2 kind=sticky text="Whoever keeps putting party hats on the roombas: stop."
+note 3 kind=ticket text="BUG KESTREL-212: Two alarms 20 m apart, 1 s apart. Tracker sent all units to the break room BETWEEN them. Closing as WONTFIX: tracker is unimodal by design."
+pickup N tool=noisemaker
+roomba r hat=party
+roomba q
+camera K dir=150 range=9
+camera Z dir=180 range=9
+guard G route=abcd

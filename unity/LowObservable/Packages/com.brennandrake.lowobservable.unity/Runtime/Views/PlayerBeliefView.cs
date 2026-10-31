@@ -27,7 +27,7 @@ namespace LowObservable.Unity.Views
 
         private void Start()
         {
-            if (Runner == null) Runner = FindFirstObjectByType<EpisodeRunner>();
+            if (Runner == null) Runner = FindAnyObjectByType<EpisodeRunner>();
             _drone = ViewKit.CreateShape(transform, "Drone (belief)", BeliefColor, DroneSize, Layers.Drone, triangle: true);
             _ellipses = new LineRenderer[Sigmas.Length];
             for (int k = 0; k < Sigmas.Length; k++)

@@ -33,7 +33,7 @@ namespace LowObservable.Unity.Views
 
         private void Start()
         {
-            if (Runner == null) Runner = FindFirstObjectByType<EpisodeRunner>();
+            if (Runner == null) Runner = FindAnyObjectByType<EpisodeRunner>();
             _cloud = CreateCloud();
             _seeker = ViewKit.CreateShape(transform, "Seeker (seen)", SeekerColor, 0.7f, Layers.Seeker, triangle: true);
             _cone = ViewKit.CreateLine(transform, "Seeker view cone", ConeColor, 0.04f, Layers.Seeker);
