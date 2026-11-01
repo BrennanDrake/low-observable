@@ -87,7 +87,10 @@ namespace LowObservable.Unity.Escape
             var ps = go.AddComponent<ParticleSystem>();
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             var main = ps.main;
-            main.loop = false;
+            // Looping with emission off: nothing spawns, but the system never reaches the end of its duration
+            // and stops. Particles handed to a stopped system with SetParticles may not be drawn, which would
+            // hide the SWARM cloud on levels 7-9 after the view sat idle through the earlier levels.
+            main.loop = true;
             main.playOnAwake = false;
             main.maxParticles = 10000;
             main.simulationSpace = ParticleSystemSimulationSpace.World;
@@ -217,6 +220,7 @@ namespace LowObservable.Unity.Escape
                 _cloud.Clear();
                 return;
             }
+            if (!_cloud.isPlaying) _cloud.Play();
             var pf = t.Filter;
             int n = pf.Count;
             if (_particles == null || _particles.Length != n) _particles = new ParticleSystem.Particle[n];
