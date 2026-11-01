@@ -102,6 +102,12 @@ namespace LowObservable.Core.Stages
         /// <summary>Above this, every unit converges.</summary>
         public double AllUnitsConfidence = 0.75;
         public double LockerCheckMass = 0.25;
+
+        /// <summary>
+        /// A patrol only answers a dispatch to a point within this distance of itself (meters). Hunters have no
+        /// leash. Keeps patrols as local obstacles to read and lure, and makes hunters the units that chase the belief.
+        /// </summary>
+        public double PatrolLeash = 8.0;
         public double TrackerAssumedSpeed = 1.6;
         public int ParticleCount = 500;
         public double ParticleInjectionPerSecond = 0.02;

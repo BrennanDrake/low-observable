@@ -61,6 +61,7 @@ namespace LowObservable.Unity.Escape
             TabButton(Tab.Journal, $"Exploit journal ({Game.Progress.Exploits.Count}/{Exploits.All.Length})");
             TabButton(Tab.Codex, "WARDEN codex");
             TabButton(Tab.Settings, "Save");
+            if (GUILayout.Button("<color=#AAA>Quit</color>", _s.Button, GUILayout.ExpandWidth(false))) Game.QuitGame();
             GUILayout.EndHorizontal();
             GUILayout.Space(_s.Px(6));
             _scroll = GUILayout.BeginScrollView(_scroll);
@@ -245,13 +246,14 @@ namespace LowObservable.Unity.Escape
 
         private void DrawPause()
         {
-            GUILayout.BeginArea(CenterRect(360, 300));
+            GUILayout.BeginArea(CenterRect(360, 340));
             GUILayout.BeginVertical(_s.Panel);
             GUILayout.Label("PAUSED", _s.Title);
             GUILayout.Space(_s.Px(8));
             if (GUILayout.Button("Resume  (Esc)", _s.Button)) Game.TogglePause();
             if (GUILayout.Button("Restart level  (R)", _s.Button)) Game.Restart();
             if (GUILayout.Button("Quit to menu", _s.Button)) Game.QuitToMenu();
+            if (GUILayout.Button("Quit game", _s.Button)) Game.QuitGame();
             GUILayout.EndVertical();
             GUILayout.EndArea();
         }

@@ -9,7 +9,7 @@ map:
 ############################################
 #S...#.........#,,,,,,,,,,,,#.........#...X#
 #....#....1....#,,,,,,,,,,,,#....m....#....#
-#....#.........#,,,,,a,,,,,,#.........D....#
+#.w..#.........#,,,,,a,,,,,,#.........D....#
 #..............l,,,,,,,,,,,,,.........#....#
 #....#.........#,,,,,,,,,,,,#.........######
 ###.##########.######,#######..s..........##
@@ -47,6 +47,7 @@ roomba r
 swivel s from=150 to=330 period=8 range=9
 keycard k name=manager
 door D key=manager
-guard G route=abc
+guard G route=abc role=hunter
+note w kind=whiteboard text="NEW THIS QUARTER: HUNTER units. They go wherever KESTREL thinks the subject is, and sweep when it isn't sure. Patrols keep to their rounds."
 ; Posted outside the manager's office: the keycard run can't be a sprint.
 guard J route=Je speed=0.8

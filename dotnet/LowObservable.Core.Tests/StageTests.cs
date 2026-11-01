@@ -323,5 +323,40 @@ mic m sensitivity=2
             Assert.NotNull(dir);
             return System.IO.Path.Combine(dir.FullName, relative);
         }
+
+        [Fact]
+        public void HuntersSweepAnUnsureBeliefWhilePatrolsKeepToTheirLeash()
+        {
+            // Player sealed in a closet on the left; a patrol and a hunter far away on the right.
+            var stage = Make(@"
+map:
+##############################
+#S#..........................#
+###..........................#
+#............................#
+#.........................P.p#
+#.........................K.k#
+#...........................X#
+##############################
+entities:
+guard P route=p
+guard K route=k role=hunter
+", TrackerKind.OccupancyGrid);
+            // An unsure belief far from both units: too weak to dispatch anyone.
+            stage.Tracker.ResetAround(new Vec2(5.5, 4.5), 2.5);
+            for (int k = 0; k < 50; k++) stage.Step(new StageInput());
+            var patrol = stage.Units[0];
+            var hunter = stage.Units[1];
+            Assert.False(patrol.Hunter);
+            Assert.True(hunter.Hunter);
+            Assert.Equal(GuardMode.Patrol, patrol.Mode);
+            Assert.Equal(GuardMode.Investigate, hunter.Mode);
+            Assert.True(Vec2.Distance(hunter.Goal, new Vec2(5.5, 4.5)) < 3.0, $"hunter goal {hunter.Goal}");
+
+            // A confident belief beyond the patrol's leash: the patrol still ignores it.
+            stage.Tracker.ResetAround(new Vec2(4.5, 3.5), 0.4);
+            for (int k = 0; k < 50; k++) stage.Step(new StageInput());
+            Assert.Equal(GuardMode.Patrol, patrol.Mode);
+        }
     }
 }

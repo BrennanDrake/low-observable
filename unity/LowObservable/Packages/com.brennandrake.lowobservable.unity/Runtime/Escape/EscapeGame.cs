@@ -189,6 +189,18 @@ namespace LowObservable.Unity.Escape
 
         public void CloseNote() => OpenNote = null;
 
+        /// <summary>Saves and exits the game (stops Play mode in the editor).</summary>
+        public void QuitGame()
+        {
+            if (Stage != null && (Screen == EscapeScreen.Playing || Screen == EscapeScreen.Paused)) QuitToMenu();
+            SaveProgress();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
         private void Load(string id, TrackerKind? trackerOverride)
         {
             Definition = _definitions[id];

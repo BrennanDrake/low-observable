@@ -98,7 +98,8 @@ namespace LowObservable.Unity.Escape
             }
             foreach (var u in stage.Units)
             {
-                var body = ModeColor(u.Mode);
+                // Hunters are red even at rest: they are the units that follow WARDEN's belief.
+                var body = u.Hunter && u.Mode == GuardMode.Patrol ? Hunter : ModeColor(u.Mode);
                 if (u.Jammed) body = Color.Lerp(body, EscapePalette.Jammed, 0.5f);
                 var coneColor = body;
                 coneColor.a = u.Mode == GuardMode.Chase ? 0.28f : 0.14f;
@@ -189,6 +190,8 @@ namespace LowObservable.Unity.Escape
         }
 
         private static float Deg(double radians) => (float)(radians * Angle.Rad2Deg);
+
+        public static readonly Color Hunter = new Color(0.95f, 0.3f, 0.45f);
 
         public static Color ModeColor(GuardMode mode)
         {

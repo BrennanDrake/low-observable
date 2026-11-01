@@ -80,7 +80,7 @@ counter-clockwise from east (0 = east, 90 = north).
 |---|---|---|
 | `camera` | `dir=` (required), `fov=` 70, `range=` 8 | Fixed camera |
 | `swivel` | `from=`, `to=` (required), `period=` 6, `phase=` 0, `fov=`, `range=` | Sweeps between two headings with eased turnarounds |
-| `guard` | `route=` (required, marker letters), `speed=` 1.0 | Patrols the route in a loop. The guard starts on its own marker |
+| `guard` | `route=` (required, marker letters), `speed=` 1.0, `role=` `patrol` or `hunter` | Walks the route in a loop, starting on its own marker. A patrol only answers dispatches within `PatrolLeash` (8 m). A hunter follows WARDEN's belief anywhere and, when nothing is confident, sweeps its best guess |
 | `roomba` | `hat=` (any word, e.g. `party`), `dir=` random | Wanders, reports what it bumps into, apologizes. Can't catch you |
 | `mic` | `sensitivity=` 1.3 | Hears sounds within loudness × sensitivity |
 | `laser` | `to=` (required, one marker) | Tripwire between the two markers |

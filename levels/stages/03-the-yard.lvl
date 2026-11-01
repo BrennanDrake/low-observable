@@ -16,8 +16,8 @@ map:
 #..o..#,,,,,,,,#................#............#
 #.....######.###...w............#...T....2...#
 #...............................#............#
-#######.####.....H.....e.....K..#####.########
-#X....E.....#.........c..........d...........#
+#######.####.....H..............#####.########
+#X....E.....#................................#
 #.....#..3..#.........o.........#,,,,h,,,,,,,#
 ##############################################
 entities:
@@ -26,7 +26,6 @@ note 2 kind=sticky text="Gate terminal beeps the whole time you use it. Engineer
 note 3 kind=chalk text="An arrow drawn on the floor toward the yard. Next to it: THE LOCKERS. AFTER THE CAMERA LOOKS AWAY."
 swivel s from=150 to=290 period=7 range=8
 swivel w from=-20 to=110 period=6 range=8 phase=0.3
-guard G route=ab
-guard K route=ecd
+guard G route=ab speed=0.8
 terminal T opens=E
 door E
