@@ -33,5 +33,5 @@ terminal F kind=forge
 terminal T opens=E
 door E
 keycard k name=lift
-guard G route=ab
+guard G route=ab role=hunter
 guard Q route=cb

@@ -29,5 +29,5 @@ door E
 camera K dir=135 range=8
 mic m sensitivity=1.5
 roomba r
-guard G route=abd
+guard G route=abd role=hunter
 guard Q route=c

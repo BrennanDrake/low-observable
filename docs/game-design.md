@@ -69,6 +69,15 @@ one off adds an entry to the **exploit journal** with what happened, the real te
 Tools act on WARDEN's inputs, never on its decisions. That rule is what keeps them a sandbox: any tool
 works against any model, and the same action has a different effect on each.
 
+## Patrols and hunters
+
+Guards come in two kinds. **Patrols** walk their rounds and only respond to trouble near them: obstacles
+to read and lure. **Hunters** (drawn red, from level 5) are WARDEN's belief made physical: they go
+wherever the tracker is confident you are, and when it isn't, they sweep its best guess. Their own
+"nobody here" then cools that spot, so a hunter works through the belief hottest place first. That is
+where the algorithm becomes the pathing: a hunter against HEATMAP clears the heat, against KESTREL it
+heads for the ellipse's centre, against SWARM it follows the densest cluster.
+
 ## Progression
 
 - **Campaign:** nine levels, unlocked in order. Each records three marks: Escaped, Unseen (never

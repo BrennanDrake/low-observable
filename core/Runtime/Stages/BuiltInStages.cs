@@ -99,8 +99,8 @@ map:
 #..o..#,,,,,,,,#................#............#
 #.....######.###...w............#...T....2...#
 #...............................#............#
-#######.####.....H.....e.....K..#####.########
-#X....E.....#.........c..........d...........#
+#######.####.....H..............#####.########
+#X....E.....#................................#
 #.....#..3..#.........o.........#,,,,h,,,,,,,#
 ##############################################
 entities:
@@ -109,8 +109,7 @@ note 2 kind=sticky text=""Gate terminal beeps the whole time you use it. Enginee
 note 3 kind=chalk text=""An arrow drawn on the floor toward the yard. Next to it: THE LOCKERS. AFTER THE CAMERA LOOKS AWAY.""
 swivel s from=150 to=290 period=7 range=8
 swivel w from=-20 to=110 period=6 range=8 phase=0.3
-guard G route=ab
-guard K route=ecd
+guard G route=ab speed=0.8
 terminal T opens=E
 door E
 ",
@@ -157,7 +156,7 @@ map:
 ############################################
 #S...#.........#,,,,,,,,,,,,#.........#...X#
 #....#....1....#,,,,,,,,,,,,#....m....#....#
-#....#.........#,,,,,a,,,,,,#.........D....#
+#.w..#.........#,,,,,a,,,,,,#.........D....#
 #..............l,,,,,,,,,,,,,.........#....#
 #....#.........#,,,,,,,,,,,,#.........######
 ###.##########.######,#######..s..........##
@@ -195,7 +194,8 @@ roomba r
 swivel s from=150 to=330 period=8 range=9
 keycard k name=manager
 door D key=manager
-guard G route=abc
+guard G route=abc role=hunter
+note w kind=whiteboard text=""NEW THIS QUARTER: HUNTER units. They go wherever KESTREL thinks the subject is, and sweep when it isn't sure. Patrols keep to their rounds.""
 ; Posted outside the manager's office: the keycard run can't be a sprint.
 guard J route=Je speed=0.8
 ",
@@ -230,7 +230,7 @@ door E
 camera K dir=135 range=8
 mic m sensitivity=1.5
 roomba r
-guard G route=abd
+guard G route=abd role=hunter
 guard Q route=c
 ",
             ["07-optics"] = @"; Level 7. WARDEN upgrades to SWARM (particle filter). Teaches: the particle cloud, mirrors (false sightings, blind spots).
@@ -300,7 +300,7 @@ terminal T opens=E
 door E
 keycard k name=cleanroom
 camera A dir=225 range=9
-guard G route=ab
+guard G route=ab role=hunter
 ",
             ["09-containment"] = @"; Level 9. SWARM, two units sharing one belief. Everything at once. Ends at the data center lift.
 title: Containment
@@ -337,7 +337,7 @@ terminal F kind=forge
 terminal T opens=E
 door E
 keycard k name=lift
-guard G route=ab
+guard G route=ab role=hunter
 guard Q route=cb
 ",
         };

@@ -269,6 +269,8 @@ namespace LowObservable.Core.Stages
                         break;
                     case EntityType.Guard:
                         if (string.IsNullOrEmpty(e.Get("route"))) throw new FormatException($"{def.Id}: guard '{e.Marker}' needs route=<markers>.");
+                        string role = e.Get("role", "patrol");
+                        if (role != "patrol" && role != "hunter") throw new FormatException($"{def.Id}: guard '{e.Marker}' role must be patrol or hunter.");
                         break;
                     case EntityType.Laser:
                         if (string.IsNullOrEmpty(e.Get("to")) || e.Get("to").Length != 1) throw new FormatException($"{def.Id}: laser '{e.Marker}' needs to=<marker>.");

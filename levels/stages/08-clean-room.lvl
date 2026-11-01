@@ -31,4 +31,4 @@ terminal T opens=E
 door E
 keycard k name=cleanroom
 camera A dir=225 range=9
-guard G route=ab
+guard G route=ab role=hunter

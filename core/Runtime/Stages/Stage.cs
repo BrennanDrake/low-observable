@@ -207,6 +207,7 @@ namespace LowObservable.Core.Stages
                             Marker = e.Marker,
                             Pose = new Pose2(e.Position, 0),
                             SpeedScale = e.GetDouble("speed", 1.0),
+                            Hunter = e.Get("role", "patrol") == "hunter",
                         };
                         foreach (char m in e.Get("route")) unit.Route.Add(def.Markers[m]);
                         unit.Goal = unit.Route[0];
@@ -1049,13 +1050,32 @@ namespace LowObservable.Core.Stages
 
         // ---------------------------------------------------------------- WARDEN and its units
 
+        /// <summary>
+        /// Turns WARDEN's belief into orders. Confidence is the belief mass within <see cref="StageTuning.DispatchRadius"/>
+        /// of the best guess.
+        ///   - Confident (at least <see cref="StageTuning.DispatchConfidence"/>): send the nearest eligible unit; all of
+        ///     them above <see cref="StageTuning.AllUnitsConfidence"/>. Patrols are eligible only within their leash.
+        ///   - Not confident: idle hunters still sweep the best guess. Their own "nobody here" reports then cool that
+        ///     spot, so the best guess moves on and the hunter works through the belief, hottest place first.
+        /// </summary>
         private void Dispatch()
         {
             var t = Tuning;
             if (!Tracker.HasEstimate || Units.Count == 0) return;
             var best = Tracker.BestGuess;
             double confidence = Tracker.MassWithin(best, t.DispatchRadius);
-            if (confidence < t.DispatchConfidence) return;
+            if (confidence < t.DispatchConfidence)
+            {
+                foreach (var u in Units)
+                {
+                    if (!u.Hunter || u.Mode != GuardMode.Patrol) continue;
+                    Bark(u, "SWEEPING.");
+                    u.Mode = GuardMode.Investigate;
+                    u.Goal = best;
+                    u.AssignedOrigin = LastFixOrigin;
+                }
+                return;
+            }
             bool everyone = confidence >= t.AllUnitsConfidence;
 
             var order = new List<PatrolUnit>(Units);
@@ -1063,6 +1083,7 @@ namespace LowObservable.Core.Stages
             foreach (var u in order)
             {
                 if (u.Mode == GuardMode.Chase || u.Mode == GuardMode.CheckLocker) { if (!everyone) break; continue; }
+                if (!u.Hunter && Vec2.Distance(u.Pose.Position, best) > t.PatrolLeash) continue;
                 bool alreadyThere = (u.Mode == GuardMode.Investigate && Vec2.Distance(u.Goal, best) < 1.5) ||
                                     (u.Mode == GuardMode.Search && Vec2.Distance(u.SearchCenter, best) < 2.5);
                 if (!alreadyThere)

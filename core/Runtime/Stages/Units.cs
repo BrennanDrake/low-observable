@@ -92,6 +92,11 @@ namespace LowObservable.Core.Stages
         public int LockerIndex = -1;
         public double ScanPhase;
         public double SpeedScale = 1.0;
+        /// <summary>
+        /// Hunters follow WARDEN's belief across the whole level and sweep its hottest spot when idle. Patrols
+        /// (the default) keep to their route and only answer a dispatch within <see cref="StageTuning.PatrolLeash"/>.
+        /// </summary>
+        public bool Hunter;
         public bool Jammed;
         /// <summary>What WARDEN's last dispatch was based on (for the exploit journal).</summary>
         public ReportOrigin AssignedOrigin;

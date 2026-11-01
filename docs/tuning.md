@@ -195,6 +195,7 @@ only `WallMuffling` (0.45) of that when there is no line of sight.
 | `DispatchPeriod` / `DispatchRadius` | 0.5 s / 3 m | How often WARDEN re-plans, and the radius it measures belief mass in |
 | `DispatchConfidence` / `AllUnitsConfidence` | 0.3 / 0.75 | Belief mass needed to send one unit, or every unit |
 | `LockerCheckMass` | 0.25 | Belief mass near a locker before a guard opens it |
+| `PatrolLeash` | 8 m | Patrols ignore dispatches further away than this; hunters have no leash |
 
 ### Trackers
 
